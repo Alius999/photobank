@@ -1,0 +1,23 @@
+.fieldContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.fieldContainer input {
+    border: 1px solid #000000;
+    border-radius: 5px;
+    padding: 5px 10px;
+    width: 70%;
+}
+
+.submitBtn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    background-color: #000000;
+    color: #ffffff;
+    cursor: pointer;
+}

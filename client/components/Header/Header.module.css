@@ -1,0 +1,8 @@
+.loginBtn,
+.registerBtn,
+.logoutBtn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    cursor: pointer;
+}
