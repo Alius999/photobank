@@ -12,7 +12,8 @@ import { CommentsModule } from './comments/comments.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', 'uploads'),
+      // При сборке __dirname === /server/dist, поэтому поднимаемся на уровень вверх до server/uploads
+      rootPath: join(__dirname, '..', 'uploads'),
       serveRoot: '/uploads',
     }),
     RegistrationModule, 

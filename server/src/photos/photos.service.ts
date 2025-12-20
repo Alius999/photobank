@@ -11,12 +11,13 @@ export class PhotosService {
       throw new UnauthorizedException('User is not authenticated');
     }
 
-    const publicUrl = `${process.env.APP_BASE_URL}/${path.join('uploads', 'photos', file.filename)}`;
+    // Сохраняем относительный путь, чтобы не зависеть от домена окружения
+    const relativeUrl = `/${path.join('uploads', 'photos', file.filename)}`;
 
     return this.prisma.photo.create({
       data: {
         description: file.originalname,
-        photoUrl: publicUrl,
+        photoUrl: relativeUrl,
         author: {
           connect: {
             id: userId,
