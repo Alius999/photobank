@@ -12,12 +12,8 @@ import { CommentsModule } from './comments/comments.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(process.cwd(), 'server', 'uploads'),
+      rootPath: join(process.cwd(), 'uploads'),
       serveRoot: '/uploads',
-      serveStaticOptions: {
-        index: false,
-        fallthrough: false,
-      },
     }),
     RegistrationModule, 
     AuthModule, 
