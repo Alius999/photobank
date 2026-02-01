@@ -30,6 +30,12 @@ export default function LoginPage() {
         const loginResult = await response.json();
         console.log(loginResult);
 
+        // Небольшая задержка для установки куки
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        // Небольшая задержка для установки куки
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
         const profileResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`, {
             credentials: 'include',
         });
@@ -37,7 +43,10 @@ export default function LoginPage() {
         if (profileResponse.ok) {
             const profile = await profileResponse.json();
             console.log('Profile', profile);
-            router.push('/profile');
+            // Используем window.location для гарантированного редиректа
+            window.location.href = '/profile';
+        } else {
+            console.error('Failed to get profile after login');
         }
     };
 

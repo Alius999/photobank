@@ -18,6 +18,7 @@ export class AuthController {
       httpOnly: true,
       sameSite: 'lax',
       secure: false,      // в проде true + HTTPS
+      path: '/',
       maxAge: 60 * 60 * 1000,
     });
     return { success: true };
