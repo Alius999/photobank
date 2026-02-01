@@ -12,7 +12,7 @@ import { CommentsModule } from './comments/comments.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),
+      rootPath: join(process.cwd(), 'uploads'),
       serveRoot: '/uploads',
     }),
     RegistrationModule, 
