@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styles from './page.module.css';
 import Link from "next/link";
@@ -19,7 +19,7 @@ type Comment = {
     authorId: number;
 };
 
-export default function GalleryPage() {
+function GalleryPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
@@ -215,5 +215,13 @@ export default function GalleryPage() {
             )}
             </section>
         </>
+    );
+}
+
+export default function GalleryPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <GalleryPageContent />
+        </Suspense>
     );
 }
