@@ -2,6 +2,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styles from './page.module.css';
+import { resolvePhotoUrl } from "@/lib/api";
 
 type Photo = {
     id: number;
@@ -153,7 +154,7 @@ function GalleryPageContent() {
                     <button key={photo.id} 
                         className={styles.photoContainer} 
                         onClick={() => handleOpenPhoto(photo.id)}>
-                        <img src={photo.photoUrl} 
+                        <img src={resolvePhotoUrl(photo.photoUrl)} 
                              alt={photo.description ?? 'Photo'} 
                              className={styles.thumbnailImage}
                         />
@@ -172,7 +173,7 @@ function GalleryPageContent() {
                         className={styles.photoWrapper}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <img src={activePhoto.photoUrl} 
+                        <img src={resolvePhotoUrl(activePhoto.photoUrl)} 
                              alt={activePhoto.description ?? 'Photo'} 
                              className={styles.realsizeImage}
                         />

@@ -3,14 +3,25 @@ import { useState, useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styles from './page.module.css';
 import Link from "next/link";
+import { resolvePhotoUrl } from "@/lib/api";
+
+type Author = {
+    id: number;
+    email: string;
+    nickname?: string | null;
+}
 
 type Photo = {
     id: number;
     photoUrl: string;
     description?: string | null;
+    author?: Author;
 };
 
-type PhotoWithComments = Photo & { comments?: Comment[] };
+type PhotoWithComments = Photo & { 
+    comments?: Comment[];
+    author?: Author;
+};
 
 type Comment = {
     id: number;
@@ -60,7 +71,6 @@ export default function GalleryPage() {
             return response.json();
         })
         .then((data) => {
-            console.log("Photos fetched successfully", data);
             setPhotos(data);
         })
         .catch((error) => {
@@ -122,7 +132,8 @@ export default function GalleryPage() {
         }
     }, [selectedPhoto]);
 
-    const activePhoto = photos.find(p => p.id === selectedPhoto) ?? activePhotoDetails ?? null;
+    // Используем activePhotoDetails если есть (там полные данные с автором), иначе ищем в photos
+    const activePhoto = activePhotoDetails ?? photos.find(p => p.id === selectedPhoto) ?? null;
 
     const handleOpenPhoto = (photoId: number) => {
         setSelectedPhoto(photoId);
@@ -170,7 +181,7 @@ export default function GalleryPage() {
                     <button key={photo.id} 
                         className={styles.photoContainer} 
                         onClick={() => handleOpenPhoto(photo.id)}>
-                        <img src={photo.photoUrl} 
+                        <img src={resolvePhotoUrl(photo.photoUrl)} 
                              alt={photo.description ?? 'Photo'} 
                              className={styles.thumbnailImage}
                         />
@@ -191,11 +202,16 @@ export default function GalleryPage() {
                         <div key={activePhoto.id} 
                             onClick={(e) => e.stopPropagation()}
                             className={styles.photoWrapper} >
-                            <img src={activePhoto.photoUrl} 
+                            <img src={resolvePhotoUrl(activePhoto.photoUrl)} 
                                  alt={activePhoto.description ?? 'Photo'} 
                                  className={styles.realsizeImage}
                             />
                             <div className={styles.commentsSection}>
+                                {activePhoto.author && (
+                                    <div className={styles.authorInfo}>
+                                        <p><strong>Автор:</strong> {activePhoto.author.nickname || activePhoto.author.email}</p>
+                                    </div>
+                                )}
                                 {thisPhotoComments.map((comment) => (
                                     <p className={styles.commentItem} key={comment.id}>{comment.content}</p>
                                 ))}

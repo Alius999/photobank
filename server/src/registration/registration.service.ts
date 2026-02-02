@@ -25,6 +25,7 @@ export class RegistrationService {
         email: data.email,
         password: await this.hashPassword(data.password),
         age,
+        nickname: data.nickname || null,
       },
     });
   }
