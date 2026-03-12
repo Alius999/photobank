@@ -165,7 +165,7 @@ function GalleryPageContent() {
 
     return (
         <section>
-            <h1>Мои фото</h1>
+            <h1>My photos</h1>
             <div className={styles.galleryContainer}>
                 {photos.map((photo) => (
                     <button key={photo.id} 
@@ -200,7 +200,7 @@ function GalleryPageContent() {
                                     <p className={styles.relatedTitle}>
                                         {activePhotoDetails?.album?.name
                                             ? <>По тегу «{activePhotoDetails.album.name}»</>
-                                            : 'Похожие фотографии'}
+                                            : 'Related photos'}
                                     </p>
                                     <div className={styles.relatedGrid}>
                                         {relatedPhotos.map((p) => (
@@ -220,7 +220,7 @@ function GalleryPageContent() {
                                 </div>
                             )}
                             <form className={styles.commentsForm} action="" onSubmit={handleCommentSubmit}>
-                                <label htmlFor="comment">Комментарий</label>
+                                <label htmlFor="comment">Comments</label>
                                 <textarea id="comment" name="comment" />
                                 <button type="submit">Отправить</button>
                             </form>

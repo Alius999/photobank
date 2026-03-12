@@ -53,7 +53,7 @@ export default function LoginPage() {
     return(
         <section className="flex flex-col justify-center mx-auto min-w-96">
             <h1 hidden>Страница для логина пользователя</h1>
-            <p className="text-center text-lg font-bold mb-8">Заполните форму логина ниже</p>
+            <p className="text-center text-lg font-bold mb-8">Fill in the login form below</p>
             <form onSubmit={handleLogin}>
                 <div className={styles.fieldContainer}>
                     <label htmlFor="email">Your E-mail</label>

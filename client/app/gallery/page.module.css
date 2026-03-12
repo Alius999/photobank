@@ -83,6 +83,10 @@
     cursor: pointer;
 }
 
+.commentsForm a {
+    color: #a78bfa;
+}
+
 .commentItem {
     padding: 10px;
     margin: 0 0 10px 0;

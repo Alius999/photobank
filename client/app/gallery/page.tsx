@@ -258,7 +258,7 @@ function GalleryPageContent() {
                             <div className={styles.commentsSection}>
                                 {activePhoto.author && (
                                     <div className={styles.authorInfo}>
-                                        <p><strong>Автор:</strong> {activePhoto.author.nickname || activePhoto.author.email}</p>
+                                        <p><strong>Author:</strong> {activePhoto.author.nickname || activePhoto.author.email}</p>
                                     </div>
                                 )}
                                 {relatedPhotos.length > 0 && (
@@ -266,7 +266,7 @@ function GalleryPageContent() {
                                         <p className={styles.relatedTitle}>
                                             {activePhoto.album?.name
                                                 ? <>По тегу «{activePhoto.album.name}»</>
-                                                : 'Похожие фотографии'}
+                                                : 'Related photos'}
                                         </p>
                                         <div className={styles.relatedGrid}>
                                             {relatedPhotos.map((p) => (
@@ -286,10 +286,10 @@ function GalleryPageContent() {
                                     </div>
                                 )}
                                 {isAuth === null || isAuth === false ? (
-                                    <p>Please, <Link href="/login">LogIn</Link> to leave your comment</p>
+                                    <p>Please, <Link href="/login" className="text-[#a78bfa]">LogIn</Link> to leave your comment</p>
                                 ) : (
                                     <form className={styles.commentsForm} action="" onSubmit={handleCommentSubmit}>
-                                        <label htmlFor="comment">Комментарий</label>
+                                        <label htmlFor="comment">Comments</label>
                                         <textarea id="comment" name="comment" />
                                         <button type="submit">Отправить</button>
                                     </form>

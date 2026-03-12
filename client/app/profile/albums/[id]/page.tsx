@@ -259,7 +259,7 @@ export default function AlbumPage() {
                     {activePhoto.author && (
                       <div className={styles.authorInfo}>
                         <p>
-                          <strong>Автор:</strong>{' '}
+                          <strong>Author:</strong>{' '}
                           {activePhoto.author.nickname ||
                             activePhoto.author.email}
                         </p>
@@ -270,7 +270,7 @@ export default function AlbumPage() {
                         <p className={styles.relatedTitle}>
                           {activePhoto.album?.name
                             ? <>По тегу «{activePhoto.album.name}»</>
-                            : 'Похожие фотографии'}
+                            : 'Related photos'}
                         </p>
                         <div className={styles.relatedGrid}>
                           {relatedPhotos.map((p) => (
@@ -300,7 +300,7 @@ export default function AlbumPage() {
                         action=""
                         onSubmit={handleCommentSubmit}
                       >
-                        <label htmlFor="comment">Комментарий</label>
+                        <label htmlFor="comment">Comments</label>
                         <textarea id="comment" name="comment" />
                         <button type="submit">Отправить</button>
                       </form>

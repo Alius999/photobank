@@ -48,7 +48,7 @@ export default function RegistrationPage() {
         <>
             <section className="flex flex-col justify-center mx-auto min-w-112">
                 <h1 hidden>Страница для регистрации пользователя</h1>
-                <p className="text-center text-lg font-bold mb-8">Заполните форму регистрации ниже</p>
+                <p className="text-center text-lg font-bold mb-8">Fill in the registration form below</p>
                 <form onSubmit={handleSubmit}>
                     <div className={styles.fieldContainer}>
                         <label htmlFor="email">Your E-mail</label>
