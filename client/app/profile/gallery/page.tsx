@@ -161,6 +161,7 @@ function GalleryPageContent() {
     }
 
     const activePhoto = photos.find(p => p.id === selectedPhoto) ?? activePhotoDetails ?? null;
+    const orderedComments = [...comments].sort((a, b) => b.id - a.id);
 
     return (
         <section>
@@ -194,14 +195,6 @@ function GalleryPageContent() {
                              className={styles.realsizeImage}
                         />
                         <div className={styles.commentsSection}>
-                            {comments.map((comment) => (
-                                <p className={styles.commentItem} key={comment.id}>{comment.content}</p>
-                            ))}
-                            <form className={styles.commentsForm} action="" onSubmit={handleCommentSubmit}>
-                                <label htmlFor="comment">Комментарий</label>
-                                <textarea id="comment" name="comment" />
-                                <button type="submit">Отправить</button>
-                            </form>
                             {relatedPhotos.length > 0 && (
                                 <div className={styles.relatedSection}>
                                     <p className={styles.relatedTitle}>
@@ -226,6 +219,16 @@ function GalleryPageContent() {
                                     </div>
                                 </div>
                             )}
+                            <form className={styles.commentsForm} action="" onSubmit={handleCommentSubmit}>
+                                <label htmlFor="comment">Комментарий</label>
+                                <textarea id="comment" name="comment" />
+                                <button type="submit">Отправить</button>
+                            </form>
+                            <div className={styles.commentsList}>
+                                {orderedComments.map((comment) => (
+                                    <p className={styles.commentItem} key={comment.id}>{comment.content}</p>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

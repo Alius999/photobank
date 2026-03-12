@@ -209,6 +209,7 @@ export default function AlbumPage() {
   const thisPhotoComments = comments.filter(
     (comment) => Number(comment.photoId) === activePhoto?.id,
   );
+  const orderedComments = [...thisPhotoComments].sort((a, b) => b.id - a.id);
 
   if (!album) return <p>Loading...</p>;
 
@@ -264,27 +265,6 @@ export default function AlbumPage() {
                         </p>
                       </div>
                     )}
-                    {thisPhotoComments.map((comment) => (
-                      <p className={styles.commentItem} key={comment.id}>
-                        {comment.content}
-                      </p>
-                    ))}
-                    {isAuth === null || isAuth === false ? (
-                      <p>
-                        Please, <Link href="/login">LogIn</Link> to leave your
-                        comment
-                      </p>
-                    ) : (
-                      <form
-                        className={styles.commentsForm}
-                        action=""
-                        onSubmit={handleCommentSubmit}
-                      >
-                        <label htmlFor="comment">Комментарий</label>
-                        <textarea id="comment" name="comment" />
-                        <button type="submit">Отправить</button>
-                      </form>
-                    )}
                     {relatedPhotos.length > 0 && (
                       <div className={styles.relatedSection}>
                         <p className={styles.relatedTitle}>
@@ -309,6 +289,29 @@ export default function AlbumPage() {
                         </div>
                       </div>
                     )}
+                    {isAuth === null || isAuth === false ? (
+                      <p>
+                        Please, <Link href="/login">LogIn</Link> to leave your
+                        comment
+                      </p>
+                    ) : (
+                      <form
+                        className={styles.commentsForm}
+                        action=""
+                        onSubmit={handleCommentSubmit}
+                      >
+                        <label htmlFor="comment">Комментарий</label>
+                        <textarea id="comment" name="comment" />
+                        <button type="submit">Отправить</button>
+                      </form>
+                    )}
+                    <div className={styles.commentsList}>
+                      {orderedComments.map((comment) => (
+                        <p className={styles.commentItem} key={comment.id}>
+                          {comment.content}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
