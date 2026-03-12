@@ -30,16 +30,16 @@ export default function Header() {
 }
 
   return (
-    <header className='flex justify-between items-center w-7xl mx-auto h-auto bg-violet-400 py-8 px-16'>
+    <header className='flex justify-between items-center w-full max-w-7xl mx-auto h-auto bg-violet-400 py-8 px-16'>
         <h1 hidden>Это главная страница</h1>
         <Link href='/' className='text-2xl font-bold'>
-            Главная страница
+          PhotoBank
         </Link>
-        <nav>
-            <ul className="flex gap-4">
+        <nav className="max-w-full">
+            <ul className="flex flex-wrap gap-3 text-sm md:text-base">
                 <li className={styles.navItem}><Link href="/">MainPage</Link></li>
                 <li className={styles.navItem}><Link href="/about">About Us</Link></li>
-                <li className={styles.navItem}><Link href="/gallery">PhotoBank</Link></li>
+                <li className={styles.navItem}><Link href="/gallery">Gallery</Link></li>
                 <li className={styles.navItem}><Link href="/profile">Profile</Link></li>
             </ul>
         </nav>

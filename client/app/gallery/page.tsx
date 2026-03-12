@@ -11,11 +11,14 @@ type Author = {
     nickname?: string | null;
 }
 
+type Album = { id: number; name: string } | null;
+
 type Photo = {
     id: number;
     photoUrl: string;
     description?: string | null;
     author?: Author;
+    album?: Album;
 };
 
 type PhotoWithComments = Photo & { 
@@ -36,14 +39,17 @@ function GalleryPageContent() {
     const pathname = usePathname();
 
     const [photos, setPhotos] = useState<Photo[]>([]);
+    const [page, setPage] = useState(1);
     const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
     const [isAuth, setIsAuth] = useState<boolean | null>(null);
     const [activePhotoDetails, setActivePhotoDetails] = useState<PhotoWithComments | null>(null);
+    const [relatedPhotos, setRelatedPhotos] = useState<Photo[]>([]);
     const handleClosePhoto = () => {
         setSelectedPhoto(null);
         setComments([]);
         setActivePhotoDetails(null);
+        setRelatedPhotos([]);
         router.push(pathname);
     };
 
@@ -72,11 +78,39 @@ function GalleryPageContent() {
         })
         .then((data) => {
             setPhotos(data);
+            setPage(1);
         })
         .catch((error) => {
             console.error("Error fetching photos", error);
         })
     }, []);
+
+    useEffect(() => {
+        // сброс страницы, если список фото изменился
+        setPage(1);
+    }, [photos.length]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (selectedPhoto !== null) return; // при открытом оверлее не подгружаем
+
+            const nearBottom =
+                window.innerHeight + window.scrollY >=
+                document.body.offsetHeight - 200;
+
+            const pageSize = 20; // 5 рядов по 4 фото
+            const canLoadMore = page * pageSize < photos.length;
+
+            if (nearBottom && canLoadMore) {
+                setPage((prev) => prev + 1);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [page, photos.length, selectedPhoto]);
 
     useEffect(() => {
         const idParam = searchParams.get('id');
@@ -116,6 +150,17 @@ function GalleryPageContent() {
     }, [selectedPhoto]);
 
     useEffect(() => {
+        if (!selectedPhoto) {
+            setRelatedPhotos([]);
+            return;
+        }
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/photos/related/${selectedPhoto}`, { method: 'GET' })
+            .then((res) => (res.ok ? res.json() : []))
+            .then((data: Photo[]) => setRelatedPhotos(Array.isArray(data) ? data : []))
+            .catch(() => setRelatedPhotos([]));
+    }, [selectedPhoto]);
+
+    useEffect(() => {
         if (selectedPhoto !== null) document.body.style.overflow = 'hidden';
         else document.body.style.overflow = '';
 
@@ -131,6 +176,9 @@ function GalleryPageContent() {
             document.removeEventListener('keydown', handler);
         }
     }, [selectedPhoto]);
+
+    const pageSize = 20;
+    const visiblePhotos = photos.slice(0, page * pageSize);
 
     // Используем activePhotoDetails если есть (там полные данные с автором), иначе ищем в photos
     const activePhoto = activePhotoDetails ?? photos.find(p => p.id === selectedPhoto) ?? null;
@@ -177,7 +225,7 @@ function GalleryPageContent() {
         <>
             <h1>Photos</h1>
             <section className={styles.galleryContainer}>
-                {photos.map((photo) => (
+                {visiblePhotos.map((photo) => (
                     <button key={photo.id} 
                         className={styles.photoContainer} 
                         onClick={() => handleOpenPhoto(photo.id)}>
@@ -223,6 +271,30 @@ function GalleryPageContent() {
                                         <textarea id="comment" name="comment" />
                                         <button type="submit">Отправить</button>
                                     </form>
+                                )}
+                                {relatedPhotos.length > 0 && (
+                                    <div className={styles.relatedSection}>
+                                        <p className={styles.relatedTitle}>
+                                            {activePhoto.album?.name
+                                                ? <>По тегу «{activePhoto.album.name}»</>
+                                                : 'Похожие фотографии'}
+                                        </p>
+                                        <div className={styles.relatedGrid}>
+                                            {relatedPhotos.map((p) => (
+                                                <button
+                                                    key={p.id}
+                                                    type="button"
+                                                    className={styles.relatedThumb}
+                                                    onClick={() => handleOpenPhoto(p.id)}
+                                                >
+                                                    <img
+                                                        src={resolvePhotoUrl(p.photoUrl)}
+                                                        alt={p.description ?? 'Photo'}
+                                                    />
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
                                 )}
                             </div>
                         </div>    

@@ -8,6 +8,7 @@ import { PhotosModule } from './photos/photos.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CommentsModule } from './comments/comments.module';
+import { AlbumsModule } from './albums/albums.module';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { CommentsModule } from './comments/comments.module';
     }),
     RegistrationModule, 
     AuthModule, 
-    PhotosModule, CommentsModule
+    PhotosModule, CommentsModule, AlbumsModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

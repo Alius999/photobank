@@ -21,6 +21,7 @@ model User {
   createdAt DateTime @default(now())
   photos    Photo[] @relation("Author")
   comments  Comment[]
+  albums    Album[]
 }
 
 model Photo {
@@ -28,9 +29,21 @@ model Photo {
   description   String?
   author        User    @relation("Author", fields: [authorId], references: [id])
   authorId      Int
+  album         Album?  @relation(fields: [albumId], references: [id])
+  albumId       Int?
   createdAt     DateTime @default(now())
   photoUrl      String?
   comments  Comment[]
+}
+
+model Album {
+  id        Int     @id @default(autoincrement())
+  name      String
+  author    User    @relation(fields: [authorId], references: [id])
+  description String?
+  authorId  Int
+  createdAt DateTime @default(now())
+  photos    Photo[]
 }
 
 model Comment {

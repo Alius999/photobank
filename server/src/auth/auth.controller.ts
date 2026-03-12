@@ -27,7 +27,20 @@ export class AuthController {
   @UseGuards(JwtGuard)
   @Get('profile')
   async profile(@Req() req: AuthenticatedRequest) {
-    return req.user;
+    return this.authService.getProfile(req.user.id);
+  }
+
+  @UseGuards(JwtGuard)
+  @Post('change-password')
+  async changePassword(
+    @Req() req: AuthenticatedRequest,
+    @Body() body: { currentPassword: string; newPassword: string },
+  ) {
+    return this.authService.changePassword(
+      req.user.id,
+      body.currentPassword,
+      body.newPassword,
+    );
   }
 
   @UseGuards(JwtGuard)

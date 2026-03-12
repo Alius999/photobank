@@ -4,10 +4,13 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styles from './page.module.css';
 import { resolvePhotoUrl } from "@/lib/api";
 
+type Album = { id: number; name: string } | null;
+
 type Photo = {
     id: number;
     photoUrl: string;
     description?: string | null;
+    album?: Album;
 };
 
 type Comment = {
@@ -28,6 +31,7 @@ function GalleryPageContent() {
     const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
     const [activePhotoDetails, setActivePhotoDetails] = useState<PhotoWithComments | null>(null);
+    const [relatedPhotos, setRelatedPhotos] = useState<Photo[]>([]);
 
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile/photos/`, {
@@ -102,6 +106,17 @@ function GalleryPageContent() {
         })
     }, [selectedPhoto]);
 
+    useEffect(() => {
+        if (!selectedPhoto) {
+            setRelatedPhotos([]);
+            return;
+        }
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/photos/related/${selectedPhoto}`, { method: 'GET' })
+            .then((res) => (res.ok ? res.json() : []))
+            .then((data: Photo[]) => setRelatedPhotos(Array.isArray(data) ? data : []))
+            .catch(() => setRelatedPhotos([]));
+    }, [selectedPhoto]);
+
     const handleOpenPhoto = (photoId: number) => {
         setSelectedPhoto(photoId);
         router.push(`${pathname}?id=${photoId}`);
@@ -111,6 +126,7 @@ function GalleryPageContent() {
         setSelectedPhoto(null);
         setComments([]);
         setActivePhotoDetails(null);
+        setRelatedPhotos([]);
         router.push(pathname);
     };
 
@@ -186,6 +202,30 @@ function GalleryPageContent() {
                                 <textarea id="comment" name="comment" />
                                 <button type="submit">Отправить</button>
                             </form>
+                            {relatedPhotos.length > 0 && (
+                                <div className={styles.relatedSection}>
+                                    <p className={styles.relatedTitle}>
+                                        {activePhotoDetails?.album?.name
+                                            ? <>По тегу «{activePhotoDetails.album.name}»</>
+                                            : 'Похожие фотографии'}
+                                    </p>
+                                    <div className={styles.relatedGrid}>
+                                        {relatedPhotos.map((p) => (
+                                            <button
+                                                key={p.id}
+                                                type="button"
+                                                className={styles.relatedThumb}
+                                                onClick={() => handleOpenPhoto(p.id)}
+                                            >
+                                                <img
+                                                    src={resolvePhotoUrl(p.photoUrl)}
+                                                    alt={p.description ?? 'Photo'}
+                                                />
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

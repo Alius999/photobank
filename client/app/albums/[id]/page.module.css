@@ -1,7 +1,7 @@
 .galleryContainer {
     margin: 16px 0 0;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     transition: all 0.3s ease;
 
@@ -127,11 +127,17 @@
 
 @media (max-width: 1100px) {
     .galleryContainer {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 800px) {
+    .galleryContainer {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 500px) {
     .galleryContainer {
         grid-template-columns: 1fr;
     }

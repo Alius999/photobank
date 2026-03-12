@@ -1,0 +1,88 @@
+.profileCard {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #f5f5f5;
+}
+
+.settingsForm {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.settingsInput {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px 10px;
+    background-color: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.settingsLabel {
+    margin-top: 6px;
+}
+
+.settingsButton {
+    margin-top: 12px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    background-color: #a78bfa;
+    color: #fff;
+    cursor: pointer;
+    align-self: flex-start;
+}
+
+.settingsButton:disabled {
+    opacity: 0.7;
+    cursor: default;
+}
+.profileCard {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #f5f5f5;
+}
+
+.settingsForm {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.settingsInput {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px 10px;
+    background-color: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.settingsLabel {
+    margin-top: 6px;
+}
+
+.settingsButton {
+    margin-top: 12px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    background-color: #a78bfa;
+    color: #fff;
+    cursor: pointer;
+    align-self: flex-start;
+}
+
+.settingsButton:disabled {
+    opacity: 0.7;
+    cursor: default;
+}
